@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartu Ulang Tahun Responsif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f2e9e1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        /* CARD */
+        .card {
+            width: 100%;
+            max-width: 900px; /* Lebar maksimal untuk layar besar */
+            min-height: 500px;
+            background: white;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TOP BANNER */
+        .banner {
+            width: 100%;
+            text-align: center;
+            font-size: clamp(18px, 5vw, 28px); /* Ukuran font adaptif */
+            font-weight: 700;
+            letter-spacing: 4px;
+            padding: 20px 0;
+            background: linear-gradient(90deg,#ffb347,#ffcc33,#ff9a9e,#fad0c4);
+            color: white;
+            z-index: 10;
+        }
+
+        /* DECORATIONS */
+        .balloon {
+            position: absolute;
+            font-size: clamp(40px, 8vw, 70px);
+            top: 70px;
+            z-index: 5;
+        }
+        .balloon.left { left: 15px; }
+        .balloon.right { right: 15px; }
+
+        .cake {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: clamp(50px, 10vw, 100px);
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        /* CONTENT */
+        .content {
+            display: flex;
+            flex-direction: row; /* Default menyamping */
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            flex-grow: 1;
+            gap: 40px;
+            z-index: 2;
+        }
+
+        /* PHOTO */
+        .photo {
+            flex-shrink: 0;
+            width: clamp(180px, 30vw, 280px);
+            height: clamp(180px, 30vw, 280px);
+            border-radius: 50%;
+            overflow: hidden;
+            border: 8px solid #f0f0f0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* TEXT */
+        .text {
+            text-align: left;
+        }
+        .text h3 {
+            color: #7a7ab5;
+            letter-spacing: 2px;
+            font-weight: 500;
+            margin: 0;
+            font-size: clamp(14px, 3vw, 18px);
+        }
+        .name {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(35px, 8vw, 65px);
+            color: #7a7ab5;
+            margin: 10px 0;
+        }
+        .message {
+            font-size: clamp(14px, 2.5vw, 17px);
+            color: #555;
+            line-height: 1.5;
+            max-width: 450px;
+        }
+
+        /* FROM TAG */
+        .from {
+            margin-top: 25px;
+            display: inline-block;
+            background: #7a7ab5;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+        }
+
+        /* MOBILE RESPONSIVE (Breakdown) */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column; /* Foto di atas, teks di bawah */
+                text-align: center;
+                padding: 40px 20px 80px 20px;
+                gap: 20px;
+            }
+            .text {
+                text-align: center;
+            }
+            .balloon { top: 60px; }
+            .cake { 
+                left: 50%; 
+                transform: translateX(-50%); 
+                bottom: 10px;
+            }
+        }
+
+        /* CONFETTI ANIMATION */
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            top: -10px;
+            z-index: 999;
+            pointer-events: none;
+            animation: fall 3s linear forwards;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="banner">HAPPY BIRTHDAY</div>
+
+        <div class="balloon left">🎈</div>
+        <div class="balloon right">🎈</div>
+
+        <div class="content">
+            <div class="photo">
+                <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9" alt="Birthday Person">
+            </div>
+
+            <div class="text">
+                <h3>SELAMAT ULANG TAHUN KE - 3</h3>
+                <div class="name">Vista Mardiana</div>
+                <div class="message">
+                    Aku berharap hari ulang tahunmu dipenuhi dengan kebahagiaan,
+                    canda tawa, dan kejutan yang luar biasa. juga permohonan maaf karena kesalahan yang telah saya buat beberapa waktu lalu🙏😊
+                </div>
+                <div class="from">
+                    Dari Temanmu : Saha Iye
+                </div>
+            </div>
+        </div>
+
+        <div class="cake">🎂</div>
+    </div>
+
+    <script>
+        function createConfetti() {
+            for(let i=0; i<50; i++) {
+                setTimeout(() => {
+                    let confetti = document.createElement("div");
+                    confetti.className = "confetti";
+                    confetti.style.left = Math.random() * 100 + "vw";
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                    confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+                    
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+        // Jalankan confetti saat halaman dimuat
+        window.onload = createConfetti;
+    </script>
+</body>
+</html>

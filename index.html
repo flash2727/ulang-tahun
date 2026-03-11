@@ -1,168 +1,169 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kartu Ucapan Ulang Tahun</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Spesial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-env: #ffb347;
+            --color-env-dark: #e69a2e;
+            --color-paper: #ffffff;
+        }
 
-<style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
 
-body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-    font-family:Arial, Helvetica, sans-serif;
-    overflow:hidden;
-}
+        /* Container Utama */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
 
-/* CONTAINER */
-.container{
-    position:relative;
-    text-align:center;
-}
+        .envelope-wrapper:hover {
+            transform: scale(1.05);
+        }
 
-/* ENVELOPE */
-.envelope{
-    width:220px;
-    height:150px;
-    background:#ff6f91;
-    position:relative;
-    cursor:pointer;
-    border-radius:6px;
-    box-shadow:0 10px 20px rgba(0,0,0,0.2);
-}
+        /* Bentuk Amplop */
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: var(--color-env);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
 
-/* FLAP */
-.flap{
-    position:absolute;
-    width:0;
-    height:0;
-    border-left:110px solid transparent;
-    border-right:110px solid transparent;
-    border-bottom:75px solid #ff3f6c;
-    top:-75px;
-    transform-origin:bottom;
-    transition:0.6s;
-}
+        /* Tutup Amplop (Segitiga Atas) */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid var(--color-env-dark);
+            transform-origin: top;
+            transition: all 0.5s ease-in-out;
+        }
 
-/* CARD */
-.card{
-    position:absolute;
-    width:200px;
-    height:140px;
-    background:white;
-    left:10px;
-    top:10px;
-    border-radius:6px;
-    padding:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    transform:translateY(40px);
-    opacity:0;
-    transition:0.8s;
-}
+        /* Bagian Dalam Amplop */
+        .envelope::after {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            width: 300px;
+            height: 200px;
+            background: var(--color-env);
+            border-radius: 0 0 10px 10px;
+            transform: translate(0);
+        }
 
-.card h2{
-    color:#ff3f6c;
-    margin:5px 0;
-}
+        /* Kertas di Dalam */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 80%;
+            background: white;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: all 0.5s ease-in-out;
+            z-index: 0;
+            border-radius: 5px;
+        }
 
-.card p{
-    font-size:14px;
-}
+        .letter p {
+            font-size: 14px;
+            color: #333;
+            margin: 0;
+            font-weight: 600;
+        }
 
-/* OPEN STATE */
-.open .flap{
-    transform:rotateX(180deg);
-}
+        /* Hiasan Melayang (Animasi) */
+        .decoration {
+            position: absolute;
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+            z-index: -1;
+        }
 
-.open .card{
-    transform:translateY(-120px);
-    opacity:1;
-}
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(20deg); }
+        }
 
-/* DECORATION */
-.heart{
-    position:absolute;
-    color:white;
-    font-size:20px;
-    animation:float 4s infinite;
-}
+        /* State Saat Diklik (Terbuka) */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
 
-@keyframes float{
-    0%{transform:translateY(0)}
-    50%{transform:translateY(-20px)}
-    100%{transform:translateY(0)}
-}
+        .envelope-wrapper.open .letter {
+            bottom: 100px;
+            z-index: 2;
+        }
 
-/* CONFETTI */
-.confetti{
-    position:absolute;
-    width:10px;
-    height:10px;
-    background:red;
-    top:-10px;
-    animation:fall 3s linear forwards;
-}
+        /* Petunjuk Klik */
+        .hint {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            letter-spacing: 2px;
+            animation: blink 1.5s infinite;
+        }
 
-@keyframes fall{
-    to{
-        transform:translateY(100vh) rotate(720deg);
-        opacity:0;
-    }
-}
-
-</style>
+        @keyframes blink {
+            50% { opacity: 0.3; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container" onclick="openCard()" id="envelopeBox">
+    <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+        <span class="decoration" style="top:-50px; left:-30px;">🎁</span>
+        <span class="decoration" style="top:-20px; right:-40px; animation-delay: 0.5s;">✨</span>
+        <span class="decoration" style="bottom:10px; left:-60px; animation-delay: 1s;">🎉</span>
+        <span class="decoration" style="bottom:-20px; right:-20px; animation-delay: 1.5s;">🎈</span>
 
-<div class="envelope">
-<div class="flap"></div>
+        <div class="envelope">
+            <div class="letter">
+                <div style="font-size: 30px; margin-top: 10px;">❤️</div>
+            </div>
+        </div>
+        
+        <div class="hint">TAP UNTUK MEMBUKA</div>
+    </div>
 
-<div class="card">
-<h2>🎉 Happy Birthday 🎂</h2>
-<p>Semoga di umur yang baru ini semua impianmu tercapai.</p>
-<p>Semoga selalu sehat, bahagia, dan sukses!</p>
-<p>✨ Surprise! ✨</p>
-</div>
+    <script>
+        function openEnvelope() {
+            const env = document.getElementById('envelope');
+            
+            // Tambahkan class open untuk animasi pembuka
+            env.classList.add('open');
 
-</div>
-
-<div class="heart" style="top:-40px; left:-20px;">💖</div>
-<div class="heart" style="top:-50px; right:-20px;">🎈</div>
-
-</div>
-
-<script>
-
-function openCard(){
-
-let box = document.getElementById("envelopeBox");
-box.classList.toggle("open");
-
-for(let i=0;i<40;i++){
-
-let confetti = document.createElement("div");
-confetti.className="confetti";
-
-confetti.style.left=Math.random()*window.innerWidth+"px";
-confetti.style.background=
-"rgb("+Math.random()*255+","+Math.random()*255+","+Math.random()*255+")";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>confetti.remove(),3000);
-
-}
-
-}
-
-</script>
-
+            // Tunggu 1.2 detik (sampai animasi selesai) baru pindah halaman
+            setTimeout(() => {
+                // GANTI 'kartu.html' dengan nama file kodingan kartu kamu
+                window.location.href = 'kartuhbd.html'; 
+            }, 1200);
+        }
+    </script>
 </body>
 </html>
